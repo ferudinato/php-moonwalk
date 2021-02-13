@@ -1,0 +1,28 @@
+{
+    "name": "andresfmj/moonwalk-framework",
+    "description": "A mini php framework that let you build websites",
+    "type": "project",
+    "license": "MIT",
+    "homepage": "https://www.ferdinania.com",
+    "authors": [
+        {
+            "name": "Andres Fernando",
+            "email": "andresfmj@ferdinania.com"
+        }
+    ],
+    "funding": [
+        {
+            "type": "paypal",
+            "url": "https://paypal.me/andresfmj"
+        }
+    ],
+    "require": {
+        "league/plates": "^3.4"
+    },
+    "autoload": {
+        "psr-4": {
+            "App\\": "application/",
+            "Moonwalk\\": "framework/"
+        }
+    }
+}
