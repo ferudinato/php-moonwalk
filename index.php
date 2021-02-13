@@ -1,5 +1,6 @@
 <?php
 define('ROOT', dirname(__FILE__));
+define('VIEWS_PATH', ROOT . '/application/views/');
 
 require __DIR__ . '/vendor/autoload.php';
 

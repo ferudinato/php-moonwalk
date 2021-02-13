@@ -18,7 +18,6 @@ class Router {
     $this->default_method = 'index';
 
     $this->_template = new Templates();
-    $this->_template->addFolder('errors', ROOT . '/application/views/errors/');
   }
 
   public function checkController($ctrl = '', $method = '', $queryString = [])
@@ -74,7 +73,6 @@ class Router {
     }
 
     $controller = ucwords($controller);
-    //$model = rtrim($controller, 's');
     $controller .= 'Controller';
 
     $response = [$controller, $action, $queryString];
