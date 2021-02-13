@@ -1,0 +1,19 @@
+<?php $this->layout('template', ['title' => 'Welcome']); ?>
+
+<div class="container">
+  <h1 class="page-title"><?= $this->e($name) ?></h1>
+  <h4 class="author-name">
+    Brought to you by 
+    <a href="<?= $this->e($author['website']); ?>" target="_blank">
+      <?= $this->e($author['name']) ?>
+    </a>
+  </h4>
+  <div class="docs">
+    <ul>
+      <li><a href="/docs/index">Get Started</a></li>
+      <li><a href="/docs/doc">Documentation</a></li>
+      <li><a href="/docs/changelog">Changelog</a></li>
+      <li><a href="#twitter">Twitter</a></li>
+    </ul>
+  </div>
+</div>
