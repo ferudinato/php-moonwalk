@@ -1,0 +1,11 @@
+.error {
+  margin: 10px auto;
+  width: 990px;
+  border: 1.5px solid #9b0a0a;
+  padding: 8px;
+}
+.error .error-header {
+  border-bottom: 1.5px solid #6b0505;
+  padding-bottom: 4px;
+  margin-bottom: 12px;
+}

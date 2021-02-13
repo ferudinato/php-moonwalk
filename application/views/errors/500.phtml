@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Error 500</title>
+  <link rel="stylesheet" href="/assets/css/styles.css" />
+  <link rel="stylesheet" href="/assets/css/errors.css" />
+</head>
+<body>
+  <div class="error">
+    <div class="error-header">
+      <h2>
+        <?= $this->e($statusCode) ?>
+        <span><?= $this->e($title) ?></span>
+      </h2>
+    </div>
+    <div class="error-body">
+      <p><?= $message . ' at file ' . $this->e($file) ?></p>
+      <p><?= 'line ' . $this->e($line) ?></p>
+    </div>
+  </div>
+</body>
+</html>
