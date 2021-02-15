@@ -17,12 +17,14 @@
         }
     ],
     "require": {
-        "league/plates": "^3.4"
+        "league/plates": "^3.4",
+        "vlucas/phpdotenv": "^5.3"
     },
     "autoload": {
         "psr-4": {
             "App\\": "application/",
             "Moonwalk\\": "framework/"
-        }
+        },
+        "files": ["config/app.php"]
     }
 }
