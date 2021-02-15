@@ -40,27 +40,50 @@ class Model extends Connector implements Helper {
   public function get($fields = [], $conditions = [], $order = '', $limit = null, $offset = null)
   {
     if ( empty($fields) ) $fields = '*';
-    else $fields = implode(', ', $fields);
+    else {
+      foreach($fields as $i => $v) {
+        $fields[$i] = "{$this->_table}.{$v}";
+      }
+      $fields = implode(', ', $fields);
+    }
 
     $wh = "";
-    $wh_params = [];
     if (!empty($conditions)) {
       if (count($conditions) > 0) {
-        foreach ($conditions as $key => $value) {
-          $wh .= "{$this->_table}.{$key} = '{$value}'";
+        foreach ($conditions as $cond => $value) {
+          if ($cond == 'and' || $cond == 'or') {
+            if (count($value) > 1) {
+              foreach ($value as $key => $val) {
+                $wh .= "{$this->_table}.{$key} = '{$val}' {$cond} ";
+              }
+            }
+          } else {
+            $wh .= "{$this->_table}.{$cond} = '{$value}' ";
+          }
         }
-      } else {
-        $wh .= $this->_table . "." . $conditions[0] . " " . $conditions[1] . " ? ";
+        if (array_key_first($conditions) == 'and' || array_key_first($conditions) == 'or') {
+          $wh = rtrim(substr($wh, 0, -4));
+        }
       }
     }
 
-    $prepareQuery = "SELECT " . $fields . " FROM " . $this->_table . " " .( $wh!='' ? "WHERE " . $wh : "" ) .
-      ( $order!=null ? "ORDER by " . $order[0] . " " . $order[1] . " " : '' ) . ( $limit!=null ? "LIMIT " . $limit . 
-      ( $offset!=null ? ", " . $offset : '' ) : '' );
-    
+    $prepareQuery = "SELECT {$fields} FROM {$this->_table} ";
+    if ($wh != '') {
+      $prepareQuery .= "WHERE {$wh} ";
+    }
+    if ($order != null) {
+      $prepareQuery .= "ORDER BY {$order} ";
+    }
+    if ($limit != null) {
+      $prepareQuery .= "LIMIT {$limit} ";
+      if ($offset != null) {
+        $prepareQuery .= "OFFSET {$offset} ";
+      }
+    }
+
     Util::mostrar($prepareQuery);
     
-    return $this->execute($prepareQuery, $wh_params);
+    return $this->execute($prepareQuery);
   }
 
   public function save($data = [])
