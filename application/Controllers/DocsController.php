@@ -16,7 +16,7 @@ class DocsController extends Controller {
     return 'Get Started';
   }
 
-  public function doc()
+  public function manual()
   {
     return 'Documentation';
   }
