@@ -25,6 +25,8 @@ class Router {
     $class = "App\\Controllers\\" . $ctrl;
     try {
       if (class_exists($class)) {
+        $checkMethod = stripos($method, '-') !== FALSE && !empty($queryString);
+        $method = $checkMethod ? 'index' : $method;
         $dispatch = new $class($ctrl, $method);
         if ( (int)method_exists($dispatch, $method) ) {
           echo call_user_func([$dispatch, $method], $queryString);
@@ -61,9 +63,13 @@ class Router {
       $controller = $urls[0];
       $action = $urls[1];
       $queryString = [];
-      for ($i = 2; $i < count($urls); $i++) {
-        if ($i % 2 == 0) {
-          $queryString['params'][$urls[$i]] = $urls[$i + 1];
+      if ($controller === 'posts' && stripos($action, '-') !== FALSE) {
+        array_push($queryString, $action);
+      } else {
+        for ($i = 2; $i < count($urls); $i++) {
+          if ($i % 2 == 0) {
+            $queryString['params'][$urls[$i]] = $urls[$i + 1];
+          }
         }
       }
     } else {
