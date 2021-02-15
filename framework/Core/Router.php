@@ -14,8 +14,8 @@ class Router {
 
   public function __construct()
   {
-    $this->default_controller = 'welcome';
-    $this->default_method = 'index';
+    $this->default_controller = DEFAULT_CONTROLLER;
+    $this->default_method = DEFAULT_METHOD;
 
     $this->_template = new Templates();
   }
@@ -25,8 +25,8 @@ class Router {
     $class = "App\\Controllers\\" . $ctrl;
     try {
       if (class_exists($class)) {
-        $checkMethod = stripos($method, '-') !== FALSE && !empty($queryString);
-        $method = $checkMethod ? 'index' : $method;
+        $checkMethod = !empty($queryString);
+        $method = $checkMethod ? 'content' : $method;
         $dispatch = new $class($ctrl, $method);
         if ( (int)method_exists($dispatch, $method) ) {
           echo call_user_func([$dispatch, $method], $queryString);
@@ -37,7 +37,7 @@ class Router {
         throw new Exception("{$ctrl} does not exists", 404);
       }
     } catch (Exception $e) {
-      header(':', true, $e->getCode());
+      http_response_code($e->getCode());
       echo $this->_template->render("errors::{$e->getCode()}", [
         'statusCode' => $e->getCode(),
         'title' => Util::show_error($e->getCode()),
@@ -63,7 +63,7 @@ class Router {
       $controller = $urls[0];
       $action = $urls[1];
       $queryString = [];
-      if ($controller === 'posts' && stripos($action, '-') !== FALSE) {
+      if ($controller === 'posts') {
         array_push($queryString, $action);
       } else {
         for ($i = 2; $i < count($urls); $i++) {
@@ -73,7 +73,7 @@ class Router {
         }
       }
     } else {
-      $controller = $urls[0] ? $urls[0] : $this->default_controller;
+      $controller = !empty($urls) && $urls[0] ? $urls[0] : $this->default_controller;
       $action = $this->default_method;
       $queryString = [];
     }
