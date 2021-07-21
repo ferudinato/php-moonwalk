@@ -56,3 +56,13 @@ body {
   display: inline-block;
   margin: 0 10px;
 }
+
+.posts {
+  margin: 10px auto;
+  width: 900px;
+}
+.posts article {
+  margin: 8px 0;
+  padding: 4px;
+  border: 1px solid #ccc;
+}
